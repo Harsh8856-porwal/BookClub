@@ -1,0 +1,130 @@
+<!-- FOOTER -->
+<footer class="main-footer">
+
+    <h4 class="footer-title">📚 BookClub</h4>
+    <p class="footer-text">Read • Learn • Grow</p>
+
+    <div class="social-icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-whatsapp"></i>
+        <i class="fa-brands fa-youtube"></i>
+        <i class="fa-brands fa-instagram"></i>
+    </div>
+
+    <p class="footer-copy">© 2026 BookClub</p>
+
+</footer>
+
+<!-- FOOTER STYLE -->
+<style>
+
+.main-footer {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    padding: 30px 20px;
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* TITLE */
+.footer-title {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* TEXT */
+.footer-text {
+    color: #cbd5f5;
+    margin-bottom: 15px;
+}
+
+/* SOCIAL ICONS */
+.social-icons i {
+    font-size: 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.social-icons i:hover {
+    transform: translateY(-5px) scale(1.2);
+    color: #38bdf8;
+}
+
+/* COPYRIGHT */
+.footer-copy {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+</style>
+
+<!-- THEME TOGGLE -->
+<script>
+const toggleButton = document.getElementById("theme-toggle");
+
+if (toggleButton) {
+    toggleButton.addEventListener("click", function() {
+        document.body.classList.toggle("dark-mode");
+
+        if(document.body.classList.contains("dark-mode")){
+            toggleButton.textContent = "☀";
+        } else {
+            toggleButton.textContent = "🌙";
+        }
+    });
+}
+</script>
+
+<!-- LANGUAGE TOGGLE -->
+<script>
+let isHindi = false;
+
+const langBtn = document.getElementById("lang-toggle");
+
+if (langBtn) {
+    langBtn.addEventListener("click", function(){
+
+        let elements = document.querySelectorAll(".lang-text");
+
+        elements.forEach(function(el){
+            if(isHindi){
+                el.innerText = el.getAttribute("data-en");
+            } else {
+                el.innerText = el.getAttribute("data-hi");
+            }
+        });
+
+        isHindi = !isHindi;
+
+    });
+}
+</script>
+
+<!-- CARD ANIMATION -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(function(card, index) {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(30px)";
+        card.style.transition = "0.5s";
+
+        setTimeout(() => {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+        }, index * 120);
+    });
+});
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

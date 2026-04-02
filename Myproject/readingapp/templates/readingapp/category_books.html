@@ -1,0 +1,193 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/220cb8914d.js" crossorigin="anonymous"></script>
+ 
+  <title>Document</title>
+</head>
+<body>
+{% load static %}
+ <h2 style="text-align: center; background-color: #f3c3d0; padding: 2px;" class="lang-text" 
+><font size="6px" face="Gabriola " >{{category}} Books</font></h2>
+
+<section>
+    <div class="container-fluid" style="margin-top:2%;">
+        <div class="row">
+        {% for book in books %}
+        <div class="col-md-2">
+  
+    <div class="card-deck">
+        <div class="card" style="border-color:#f3c3d0; margin-top: 20px;">
+          <img src="{{book.book_img.url}}" class="card-img-top"  style="height:220px;">
+          <div class="card-body">
+            
+            <h5 class="card-title">{{book.book_name}}</h5>
+            <a href="{{book.book_file.url}}" class="btn btn-outline-transparent" style="margin-bottom: 0%;  border-color:rgb(239, 73, 136);">Read</a> </div>
+        </div>
+    </div>
+    </div>
+       {% endfor %}
+    </div>
+    </div>
+</section>
+</body>
+{% include 'readingapp/footer.html' %} {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/220cb8914d.js"></script>
+
+  <title>Category Books</title>
+
+  <style>
+
+  body {
+      background: #0f172a;
+      color: white;
+  }
+
+  /* HEADER */
+  .title-box {
+      text-align: center;
+      padding: 15px;
+      background: linear-gradient(135deg,#6366f1,#38bdf8);
+      font-size: 28px;
+      font-weight: bold;
+  }
+
+  /* MAIN CONTAINER BOX */
+  .book-box {
+      width: 90%;
+      margin: 30px auto;
+      padding: 25px;
+      border-radius: 15px;
+      background: linear-gradient(135deg,#1e293b,#334155);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  /* GRID FIX */
+  .book-col {
+      padding: 10px;
+  }
+
+  /* CARD */
+  .card {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0f172a;
+      transition: 0.3s;
+      transform: translateY(40px);
+      opacity: 0;
+      animation: fadeUp 0.6s forwards;
+  }
+
+  .card img {
+      height: 220px;
+      object-fit: cover;
+  }
+
+  .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  }
+
+  .card-body {
+      text-align: center;
+  }
+
+  .card-title {
+      font-size: 14px;
+      color: white;
+  }
+
+  .btn-read {
+      background: linear-gradient(135deg,#6366f1,#38bdf8);
+      color: white;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      border: none;
+  }
+
+  /* ANIMATION */
+  @keyframes fadeUp {
+      to {
+          transform: translateY(0);
+          opacity: 1;
+      }
+  }
+
+  </style>
+</head>
+
+<body>
+{% load static %}
+
+<!-- HEADER -->
+<div class="title-box">
+    📚 {{ category }} Books
+</div>
+
+<section>
+    <div class="book-box">
+
+        <div class="row">
+
+        {% for book in books %}
+        <div class="col-md-2 book-col">
+
+            <div class="card" style="animation-delay: {{forloop.counter0}}0.1s">
+
+                <!-- IMAGE -->
+                {% if book.book_img %}
+                    <img src="{{ book.book_img.url }}" class="card-img-top">
+                {% else %}
+                    <img src="{% static 'image/default.jpg' %}" class="card-img-top">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.book_name }}</h5>
+
+                    {% if book.book_file %}
+                        <a href="{{ book.book_file.url }}" class="btn btn-read">Read</a>
+                    {% else %}
+                        <p style="color:red;">No file</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <h4 style="margin-top:50px; color:gray;">
+                    No books found in "{{ category }}"
+                </h4>
+            </div>
+        {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% include 'readingapp/footer.html' %}
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init();
+</script>
+
+</body>
+</html>

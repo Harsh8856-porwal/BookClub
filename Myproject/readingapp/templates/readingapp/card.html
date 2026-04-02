@@ -1,0 +1,224 @@
+{% load static %}
+
+<!-- NAVBAR -->
+<section>
+<nav class="navbar navbar-expand-lg navbar-dark modern-nav">
+  <a class="navbar-brand d-flex align-items-center" href="#">
+    <img src="{% static 'image/logobook.png' %}" width="45" class="mr-2">
+    <b>Bookclub</b>
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+    </ul>
+
+    <form class="form-inline">
+      <input class="form-control mr-2 search-box" type="text" placeholder="Search Book">
+      <button class="btn btn-light" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+    <section>
+    <button id="theme-toggle" class="btn btn-light ml-2" style="background-color: #ffffff; margin-left: 10px;">🌙</button>
+    </section>
+    <section>
+    <button id="lang-toggle" class="btn btn-light ml-2" style="background-color: #ffffff; margin-left: 10px;">हिंदी</button>
+    </section>
+  </div>
+</nav>
+</section>
+
+<!-- BANNER -->
+<section class="banner">
+  <img src="{% static 'image/header.jpeg' %}">
+</section>
+
+<!-- BOOKS FOR EVERY AGE -->
+<section class="container text-center mt-4">
+  <h4 class="section-title">📚 Books for Every Age</h4>
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="card modern-card">
+        <a href="/category/Kids">
+          <img src="{% static 'image/kids.jpg' %}">
+        </a>
+        <h5>Kids</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card modern-card">
+        <a href="/category/Young">
+          <img src="{% static 'image/young.jpg' %}">
+        </a>
+        <h5>Young</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card modern-card">
+        <a href="/category/Adult">
+          <img src="{% static 'image/adult.jpg' %}">
+        </a>
+        <h5>Adult</h5>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOOK COLLECTION -->
+<section class="collection-section mt-5">
+  <h4 class="section-title text-center">🔥 Books Collection</h4>
+
+  <div class="slider">
+    <div class="slide-track">
+
+      <img src="/media/uploadedFiles/bible_spiritual.jfif.jpeg">
+      <img src="/media/uploadedFiles/We_were_liars.avif">
+      <img src="/media/uploadedFiles/treasure_island.jpg.jpeg">
+      <img src="/media/uploadedFiles/black_beauty.jpg.jpeg">
+      <img src="/media/uploadedFiles/famousfive.jfif.jpeg">
+      <img src="/media/uploadedFiles/ramayana.webp">
+      <img src="/media/uploadedFiles/krishanabook.jpg.jpeg">
+      <img src="/media/uploadedFiles/panchtantra.jpg.jpeg">
+      <img src="/media/uploadedFiles/pride.jpg.jpeg">
+      <img src="/media/uploadedFiles/the_golden_key.jpg.jpeg">
+
+    </div>
+  </div>
+</section>
+
+<!-- RECENT BOOKS -->
+<section class="container mt-5">
+  <h4 class="section-title text-center">✨ Recent Books</h4>
+
+  <div class="row">
+
+    {% for books in viewbook %}
+    <div class="col-md-2">
+      <div class="card modern-card">
+        <img src="/media/{{ books.book_img }}">
+        <div class="card-body text-center">
+          <h6>{{books.book_name}}</h6>
+          <a href="/media/{{ books.book_file }}" class="btn btn-primary btn-sm">Read</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<hr>
+
+<!-- ABOUT -->
+<section class="about-section text-center">
+  <h4>Escape into a book, anytime, anywhere</h4>
+  <p>Reading helps you explore new worlds and gain knowledge.</p>
+  <a class="btn btn-primary" href="addbook">Add Your Book</a>
+</section>
+
+<!-- CATEGORY -->
+<section class="container mt-5">
+  <h4 class="section-title text-center">Explore Categories</h4>
+
+  <div class="row text-center">
+
+    <div class="col-md-2"><div class="card modern-card"><a href="/category/Classic"><img src="{% static 'image/classic.jfif' %}"></a><h6>Classic</h6></div></div>
+    <div class="col-md-2"><div class="card modern-card"><a href="/category/Mystery"><img src="{% static 'image/mystery.jfif' %}"></a><h6>Mystery</h6></div></div>
+    <div class="col-md-2"><div class="card modern-card"><a href="/category/Romantic"><img src="{% static 'image/romantic.jfif' %}"></a><h6>Romantic</h6></div></div>
+    <div class="col-md-2"><div class="card modern-card"><a href="/category/Spiritual"><img src="{% static 'image/spiritual.jfif' %}"></a><h6>Spiritual</h6></div></div>
+    <div class="col-md-2"><div class="card modern-card"><a href="/category/Fiction"><img src="{% static 'image/fiction.jfif' %}"></a><h6>Fiction</h6></div></div>
+    <div class="col-md-2"><div class="card modern-card"><a href="/category/Adventure"><img src="{% static 'image/adventure.jfif' %}"></a><h6>Adventure</h6></div></div>
+
+  </div>
+</section>
+
+<!-- STYLE -->
+<style>
+
+/* NAVBAR */
+.modern-nav {
+    background: linear-gradient(135deg,#0f172a,#1e293b);
+}
+
+/* BANNER */
+.banner img {
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+/* TITLE */
+.section-title {
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+/* CARD */
+.modern-card {
+    border-radius:12px;
+    overflow:hidden;
+    transition:0.3s;
+}
+.modern-card img {
+    height:180px;
+    width:100%;
+    object-fit:cover;
+}
+.modern-card:hover {
+    transform:translateY(-8px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* SEARCH */
+.search-box {
+    border-radius:20px;
+}
+
+/* COLLECTION */
+.collection-section {
+    background:#0f172a;
+    padding:20px;
+    color:white;
+}
+
+/* SLIDER */
+.slider {
+    overflow:hidden;
+}
+.slide-track {
+    display:flex;
+    animation:scroll 20s linear infinite;
+}
+.slide-track img {
+    height:160px;
+    width:200px;
+    margin:10px;
+    border-radius:10px;
+}
+
+@keyframes scroll {
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+}
+
+/* ABOUT */
+.about-section {
+    background:linear-gradient(135deg,#6366f1,#38bdf8);
+    padding:30px;
+    border-radius:15px;
+    color:white;
+    margin:20px;
+}
+
+</style>

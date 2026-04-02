@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookClub</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+<style>
+
+/* ===== BODY ===== */
+body {
+    background: linear-gradient(50deg, #0f172a, #1e293b);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    background: rgba(15, 23, 42, 0.9) !important;
+}
+
+/* ===== HERO ===== */
+.hero-container {
+    position: relative;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+}
+
+/* ===== ORBIT ===== */
+.orbit-container {
+    position: absolute;
+    width: 100%;
+    height:100%;
+}
+
+/* AUTHOR STYLE */
+.author {
+    position: absolute;
+    font-size: 16px;
+    opacity: 0.8;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+    will-change: transform;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg">
+<a class="navbar-brand text-white" href="#">📚 BookClub</a>
+</nav>
+
+<div class="hero-container">
+
+    <div class="orbit-container" id="orbit"></div>
+
+    <div class="hero">
+        <h1>Discover Amazing Books 📖</h1>
+        <p style="color:#ccc;">Find your next favorite book</p>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+const authors = [
+"J.K. Rowling","Stephen King","Agatha Christie","George Orwell",
+"Chetan Bhagat","R.K. Narayan","Paulo Coelho","Dan Brown",
+"Jane Austen","Mark Twain","Ruskin Bond","Arundhati Roy",
+"Jhumpa Lahiri","Sudha Murthy","Khaled Hosseini",
+"Leo Tolstoy","Charles Dickens","Oscar Wilde",
+"Ernest Hemingway","William Shakespeare",
+"Premchand","Rabindranath Tagore","Sarojini Naidu",
+"Bankim Chandra","Vikram Seth","Anita Desai",
+"Salman Rushdie","Aravind Adiga","Amish Tripathi",
+"Devdutt Pattanaik","Ashwin Sanghi","Durjoy Datta",
+"Ravinder Singh","Savi Sharma","Preeti Shenoy",
+"Neil Gaiman","Rick Riordan","J.R.R. Tolkien",
+"George R.R. Martin","Suzanne Collins",
+"Danielle Steel","Sidney Sheldon","E.L. James",
+"Colleen Hoover","Harlan Coben","John Green",
+"Nicholas Sparks","James Patterson"
+];
+
+const colors = [
+"#38bdf8","#22c55e","#f59e0b","#ef4444",
+"#a855f7","#14b8a6","#e11d48","#f97316"
+];
+
+const orbit = document.getElementById("orbit");
+
+/* 🔥 BOX WIDTH */
+const boxWidth = 1200;
+
+/* 🔥 NUMBER OF LINES (CHANGE 5 OR 6) */
+const totalLines = 6;
+
+/* FUNCTION: SPLIT AUTHORS INTO MULTIPLE LINES */
+function splitIntoLines(arr, lines) {
+    const perLine = Math.ceil(arr.length / lines);
+    const result = [];
+
+    for (let i = 0; i < lines; i++) {
+        result.push(arr.slice(i * perLine, (i + 1) * perLine));
+    }
+
+    return result;
+}
+
+const lines = splitIntoLines(authors, totalLines);
+
+/* FUNCTION TO CREATE EACH LINE */
+function createLine(line, yPos) {
+    const gap = boxWidth / line.length;
+
+    line.forEach((name, i) => {
+        const span = document.createElement("span");
+        span.className = "author";
+        span.innerText = name;
+
+        const baseX = (window.innerWidth/2 - boxWidth/2) + (i * gap);
+
+        span.dataset.baseX = baseX;
+        span.dataset.baseY = yPos;
+
+        span.dataset.speed = 0.001 + Math.random() * 0.002;
+        span.dataset.offset = Math.random() * 1000;
+        span.style.color = colors[i % colors.length];
+
+        orbit.appendChild(span);
+    });
+}
+
+/* 🔥 CREATE MULTIPLE LINES */
+const startY = 140;
+const gapY = 50;
+
+lines.forEach((line, index) => {
+    createLine(line, startY + (index * gapY));
+});
+
+const elements = document.querySelectorAll(".author");
+
+/* FLOAT ANIMATION */
+function animate(time) {
+
+    elements.forEach(el => {
+
+        const baseX = parseFloat(el.dataset.baseX);
+        const baseY = parseFloat(el.dataset.baseY);
+        const speed = parseFloat(el.dataset.speed);
+        const offset = parseFloat(el.dataset.offset);
+
+        const floatY = Math.sin((time + offset) * speed) * 6;
+        const floatX = Math.cos((time + offset) * speed) * 10;
+
+        el.style.transform = 
+            `translate(${baseX + floatX}px, ${baseY + floatY}px)`;
+    });
+
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+
+});
+</script>
+
+</body>
+</html>

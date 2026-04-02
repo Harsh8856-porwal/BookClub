@@ -1,0 +1,73 @@
+{% include 'readingapp/header.html' %}
+<section>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f3c3d0;">
+      <a class="navbar-brand" href="#"> <img src="readingapp/static/image/logobook.png" width="50" height="50" class="d-inline-block align-top" alt=""><font size="6px" face="Gabriola">
+        Bookclub</font></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/login"><font size="5px" face="Gabriola">Login</font></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register"><font size="5px" face="Gabriola">Register</font></a>
+          </li>
+        </ul>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="text" value="{{books.book_name}}" placeholder="Search Book" name="search">
+          <button class="btn btn btn-outline-white my-2 my-sm-0" style="background-color: #ffffff;" type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #fe76b1;"></i></button>
+         </form>
+      </div>
+    </nav>
+  </section>
+  <hr>
+  <section style="background-color: #f3c3d0;">
+    <div class="container"style="background-color: white; margin-top:0px; border-radius: 10px; max-width: 65rem; padding-top: 20px;">
+    
+        <h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; margin-top:0px;"><font font-weight="bold" face="Gabriola">ABOUT US</font></h2>
+        <hr>
+        <pre><font font-weight="bold" face="Gabriola" size="5px">
+            One web page for every book ever published. It's a lofty but achievable goal.
+
+            To build Bookclub, we need hundreds of millions of book records, a wiki interface and lots of people who are willing
+            to contribute their time and effort to building the site.
+            To date, we have gathered over 20 million records from a variety of large catalogs
+            as well as single contributions,with more on the way.
+            Bookclub is an open project: the software is open, the data are open, the documentation is open,
+            and we welcome your contribution. Whether you fix a typo,add a book, or write a widget--it's all welcome.
+            We have a small team of fantastic programmers who have accomplished a lot,but we can't do it alone!</font></pre>
+            
+              <h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; "><font font-weight="bold" face="Gabriola">VISION</font></h2>
+              <hr>
+              <pre><font font-weight="bold" face="Gabriola" size="5px">   
+The ultimate goal of the Bookclub is to make all the published works of humankind available to everyone in the world.
+While large in scope and ambition, this goal is within our grasp. Achieving it will require the participation of librarians, authors, 
+government officials and technologists.Imagine what a comprehensive, open library could be! A talented math whiz 
+who lives in a rural community can explore the works of high math. 
+An elderly person can have a large print edition of any book ever published. An innovative young scholar can publish 
+a book directly to this great library on subjects that might not otherwise make it through the long and difficult publication process.
+How can you help? Improve the records we have for the books you love – every record is fully editable by clicking the 
+“edit” button on the page.If we don't have a record for a book, you can create one. If you're a library with digitized resources, 
+tell us where they are and we'll point people to them.
+Our hope is that libraries and individual book readers will join this project and together we can build towards universal
+access to all knowledge.
+
+For more information
+Visit the Blog
+Read our FAQ
+Contact Us
+Make a Donation
+The Team
+Developer Center
+Licensing
+About the technology
+About the librarianship
+We're having a Book Drive!
+
+            </font></pre>
+</div>
+    </section>
+{% include 'readingapp/footer.html' %}
