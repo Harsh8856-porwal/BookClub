@@ -26,7 +26,7 @@ body {
 /* ===== HERO ===== */
 .hero-container {
     position: relative;
-    height: 40vh;
+    height: 30vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,7 +48,7 @@ body {
 /* AUTHOR STYLE */
 .author {
     position: absolute;
-    font-size: 16px;
+    font-size: 18px;
     opacity: 0.8;
     white-space: nowrap;
     transition: all 0.2s ease-in-out;
@@ -105,7 +105,7 @@ const colors = [
 const orbit = document.getElementById("orbit");
 
 /* 🔥 BOX WIDTH */
-const boxWidth = 1200;
+const boxWidth = 1400;
 
 /* 🔥 NUMBER OF LINES (CHANGE 5 OR 6) */
 const totalLines = 6;
@@ -147,8 +147,8 @@ function createLine(line, yPos) {
 }
 
 /* 🔥 CREATE MULTIPLE LINES */
-const startY = 140;
-const gapY = 50;
+const startY = 30;
+const gapY = 30;
 
 lines.forEach((line, index) => {
     createLine(line, startY + (index * gapY));
