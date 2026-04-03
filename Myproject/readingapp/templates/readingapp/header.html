@@ -105,7 +105,7 @@ const colors = [
 const orbit = document.getElementById("orbit");
 
 /* 🔥 BOX WIDTH */
-const boxWidth = 1400;
+const boxWidth = 1500;
 
 /* 🔥 NUMBER OF LINES (CHANGE 5 OR 6) */
 const totalLines = 6;
@@ -116,7 +116,7 @@ function splitIntoLines(arr, lines) {
     const result = [];
 
     for (let i = 0; i < lines; i++) {
-        result.push(arr.slice(i * perLine, (i + 1) * perLine));
+        result.push(arr.slice(i * perLine, (i + 1.5) * perLine));
     }
 
     return result;
@@ -147,8 +147,8 @@ function createLine(line, yPos) {
 }
 
 /* 🔥 CREATE MULTIPLE LINES */
-const startY = 30;
-const gapY = 30;
+const startY = 35;
+const gapY =40;
 
 lines.forEach((line, index) => {
     createLine(line, startY + (index * gapY));
