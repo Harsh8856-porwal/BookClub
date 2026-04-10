@@ -1,73 +1,68 @@
+{% load static %}
 {% include 'readingapp/header.html' %}
-<section>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f3c3d0;">
-      <a class="navbar-brand" href="#"> <img src="readingapp/static/image/logobook.png" width="50" height="50" class="d-inline-block align-top" alt=""><font size="6px" face="Gabriola">
-        Bookclub</font></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/login"><font size="5px" face="Gabriola">Login</font></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register"><font size="5px" face="Gabriola">Register</font></a>
-          </li>
-        </ul>
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" type="text" value="{{books.book_name}}" placeholder="Search Book" name="search">
-          <button class="btn btn btn-outline-white my-2 my-sm-0" style="background-color: #ffffff;" type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #fe76b1;"></i></button>
-         </form>
+
+<section class="py-5" style="background: rgba(255,255,255,0.08);">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-6">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h2 class="mb-3">About BookClub</h2>
+          <p class="lead">BookClub is a digital community dedicated to making books discoverable, readable, and shareable for everyone.</p>
+          <p>We bring together readers, librarians, and volunteers to build a modern, open library experience. Our goal is to create one page for every published book and make it easy for readers around the world to find and enjoy new stories.</p>
+        </div>
       </div>
-    </nav>
-  </section>
-  <hr>
-  <section style="background-color: #f3c3d0;">
-    <div class="container"style="background-color: white; margin-top:0px; border-radius: 10px; max-width: 65rem; padding-top: 20px;">
-    
-        <h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; margin-top:0px;"><font font-weight="bold" face="Gabriola">ABOUT US</font></h2>
-        <hr>
-        <pre><font font-weight="bold" face="Gabriola" size="5px">
-            One web page for every book ever published. It's a lofty but achievable goal.
+      <div class="col-lg-6">
+        <img src="{% static 'image/We were liars.avif' %}" alt="Vision illustration" class="img-fluid rounded shadow-sm" />
+      </div>
+    </div>
 
-            To build Bookclub, we need hundreds of millions of book records, a wiki interface and lots of people who are willing
-            to contribute their time and effort to building the site.
-            To date, we have gathered over 20 million records from a variety of large catalogs
-            as well as single contributions,with more on the way.
-            Bookclub is an open project: the software is open, the data are open, the documentation is open,
-            and we welcome your contribution. Whether you fix a typo,add a book, or write a widget--it's all welcome.
-            We have a small team of fantastic programmers who have accomplished a lot,but we can't do it alone!</font></pre>
-            
-              <h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; "><font font-weight="bold" face="Gabriola">VISION</font></h2>
-              <hr>
-              <pre><font font-weight="bold" face="Gabriola" size="5px">   
-The ultimate goal of the Bookclub is to make all the published works of humankind available to everyone in the world.
-While large in scope and ambition, this goal is within our grasp. Achieving it will require the participation of librarians, authors, 
-government officials and technologists.Imagine what a comprehensive, open library could be! A talented math whiz 
-who lives in a rural community can explore the works of high math. 
-An elderly person can have a large print edition of any book ever published. An innovative young scholar can publish 
-a book directly to this great library on subjects that might not otherwise make it through the long and difficult publication process.
-How can you help? Improve the records we have for the books you love – every record is fully editable by clicking the 
-“edit” button on the page.If we don't have a record for a book, you can create one. If you're a library with digitized resources, 
-tell us where they are and we'll point people to them.
-Our hope is that libraries and individual book readers will join this project and together we can build towards universal
-access to all knowledge.
+    <div class="row mt-5 gy-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title">Our Vision</h5>
+            <p class="card-text">A world where every published work is accessible to readers everywhere, regardless of location or background.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title">Our Mission</h5>
+            <p class="card-text">To build an open platform for books, powered by community contributions and a simple, beautiful reading experience.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title">Get Involved</h5>
+            <p class="card-text">Help improve book records, add new titles, or spread the word so more readers can discover BookClub.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-For more information
-Visit the Blog
-Read our FAQ
-Contact Us
-Make a Donation
-The Team
-Developer Center
-Licensing
-About the technology
-About the librarianship
-We're having a Book Drive!
+    <div class="row mt-5 gy-4">
+      <div class="col-lg-8">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h3>Why BookClub matters</h3>
+          <p>BookClub is built on the belief that knowledge should be open and easy to access. We support readers by making books searchable, borrowable, and shareable. Our community helps ensure every title gets the accurate metadata and discoverability it deserves.</p>
+          <ul>
+            <li>Explore a growing catalog of books.</li>
+            <li>Contribute by improving book records.</li>
+            <li>Help others find the stories they love.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h5>Ways to support</h5>
+          <p>Join the community, suggest new books, or volunteer to help curate the collection. Every contribution makes BookClub stronger.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            </font></pre>
-</div>
-    </section>
 {% include 'readingapp/footer.html' %}

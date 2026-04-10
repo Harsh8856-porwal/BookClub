@@ -1,66 +1,358 @@
 <!-- FOOTER -->
 <footer class="main-footer">
-
-    <h4 class="footer-title">📚 BookClub</h4>
-    <p class="footer-text">Read • Learn • Grow</p>
-
-    <div class="social-icons">
-        <i class="fa-brands fa-facebook"></i>
-        <i class="fa-brands fa-whatsapp"></i>
-        <i class="fa-brands fa-youtube"></i>
-        <i class="fa-brands fa-instagram"></i>
+  <div class="footer-top container">
+    <div class="footer-block footer-brand">
+      <h4 class="footer-title">📚 BookClub</h4>
+      <p class="footer-text">Read • Learn • Grow</p>
+      <p class="footer-description">A modern online library where readers connect, discover, and share books.</p>
     </div>
 
-    <p class="footer-copy">© 2026 BookClub</p>
+    <div class="footer-block footer-links-block">
+      <h5>Quick Links</h5>
+      <a class="footer-link lang-text" data-en="Home" data-hi="होम" href="/">Home</a>
+      <a class="footer-link lang-text" data-en="Vision" data-hi="विजन" href="/vision">Vision</a>
+      <a class="footer-link lang-text" data-en="Volunteer" data-hi="स्वयंसेवक" href="/volunteer">Volunteer</a>
+      <a class="footer-link lang-text" data-en="T&C" data-hi="नियम एवं शर्तें" href="/tc">T&C</a>
+    </div>
 
+    <div class="footer-block footer-contact">
+      <h5>Contact</h5>
+      <p>Email: support@bookclub.com</p>
+      <p>Phone: +1 234 567 890</p>
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 BookClub. All rights reserved.</p>
+  </div>
 </footer>
 
 <!-- FOOTER STYLE -->
 <style>
 
+body.dark-mode {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+body.dark-mode .main-footer,
+body.dark-mode .modern-nav,
+body.dark-mode .collection-section,
+body.dark-mode .about-section,
+body.dark-mode .modern-card {
+    background: #111827 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode a,
+body.dark-mode .nav-link,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode .card-body,
+body.dark-mode .btn,
+body.dark-mode .footer-text,
+body.dark-mode .footer-copy {
+    color: #f8fafc !important;
+}
+
+body.dark-mode .btn.btn-light {
+    background-color: #374151 !important;
+    color: #f8fafc !important;
+    border-color: #4b5563 !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+}
+
+body.dark-mode input,
+body.dark-mode .form-control {
+    background: #1f2937;
+    color: #f8fafc;
+    border-color: #4b5563;
+}
+
+body.dark-mode .slider {
+    background: #111827;
+}
+
 .main-footer {
     background: linear-gradient(135deg, #0f172a, #1e293b);
-    padding: 30px 20px;
-    text-align: center;
+    padding: 40px 20px;
     color: white;
     margin-top: 40px;
     border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-/* TITLE */
-.footer-title {
-    font-weight: bold;
-    letter-spacing: 1px;
+.footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto 25px;
 }
 
-/* TEXT */
-.footer-text {
+.footer-block {
+    flex: 1 1 220px;
+    min-width: 220px;
+}
+
+.footer-description {
     color: #cbd5f5;
-    margin-bottom: 15px;
+    line-height: 1.6;
+    max-width: 320px;
 }
 
-/* SOCIAL ICONS */
+.footer-links-block h5,
+.footer-contact h5 {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.footer-link {
+    display: block;
+    color: #cbd5f5;
+    margin-bottom: 8px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+}
+
+.footer-contact p {
+    margin: 4px 0;
+    color: #cbd5f5;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.social-icons a {
+    color: #cbd5f5;
+}
+
+.social-icons a:hover {
+    color: #ffffff;
+}
+
 .social-icons i {
     font-size: 20px;
-    margin: 10px;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
-/* HOVER EFFECT */
-.social-icons i:hover {
-    transform: translateY(-5px) scale(1.2);
-    color: #38bdf8;
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
 }
 
-/* COPYRIGHT */
 .footer-copy {
-    margin-top: 10px;
+    margin: 0;
     font-size: 14px;
     color: #94a3b8;
 }
 
 </style>
+
+<!-- CHAT WIDGET STYLE -->
+<style>
+.chat-widget {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.chat-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.25);
+    transition: transform 0.2s ease;
+}
+
+.chat-button:hover {
+    transform: scale(1.05);
+}
+
+.chat-popup {
+    width: 340px;
+    max-height: 520px;
+    background: rgba(15, 23, 42, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.35);
+    display: none;
+    flex-direction: column;
+}
+
+.chat-popup.open {
+    display: flex;
+}
+
+.chat-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.chat-popup-header h5 {
+    margin: 0;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.chat-popup-header button {
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.chat-messages {
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-message {
+    margin-bottom: 14px;
+    display: flex;
+}
+
+.chat-message.user .chat-bubble {
+    margin-left: auto;
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-top-left-radius: 18px;
+}
+
+.chat-message.bot .chat-bubble {
+    margin-right: auto;
+    background: rgba(255,255,255,0.08);
+    color: #e2e8f0;
+    border-bottom-right-radius: 18px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 18px;
+    border-top-left-radius: 18px;
+}
+
+.chat-bubble {
+    padding: 12px 14px;
+    max-width: 80%;
+    line-height: 1.5;
+    font-size: 0.94rem;
+}
+
+.chat-form {
+    padding: 12px 14px 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: grid;
+    gap: 10px;
+}
+
+.chat-form input[type='text'] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+}
+
+.chat-form button,
+.chat-form label {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.chat-form button {
+    background: #2563eb;
+    color: #fff;
+}
+
+.chat-form label {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    text-align: center;
+}
+
+.chat-form input[type='file'] {
+    display: none;
+}
+
+.chat-file-label {
+    font-size: 0.9rem;
+    color: #cbd5f5;
+}
+
+@media (max-width: 575px) {
+    .chat-popup {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        max-width: calc(100% - 24px);
+    }
+}
+</style>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget">
+    <button id="chat-toggle" class="chat-button" aria-label="Open chat">💬</button>
+    <div id="chat-popup" class="chat-popup" role="dialog" aria-modal="true" aria-label="Chat assistant">
+        <div class="chat-popup-header">
+            <h5>BookClub Assistant</h5>
+            <button id="chat-close" aria-label="Close chat">×</button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <div class="chat-message bot">
+                <div class="chat-bubble">Hi! Ask me for a book summary, recommendation, meaning, or image detail.</div>
+            </div>
+        </div>
+        <form id="chat-widget-form" class="chat-form" enctype="multipart/form-data">
+            <input id="chat-widget-input" name="query" type="text" placeholder="Type your question..." autocomplete="off" required>
+            <label for="chat-widget-file">Upload image</label>
+            <input id="chat-widget-file" name="image" type="file" accept="image/*">
+            <span class="chat-file-label" id="chat-file-name">No file selected</span>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
 
 <!-- THEME TOGGLE -->
 <script>
@@ -89,6 +381,7 @@ if (langBtn) {
     langBtn.addEventListener("click", function(){
 
         let elements = document.querySelectorAll(".lang-text");
+        let placeholders = document.querySelectorAll(".lang-placeholder");
 
         elements.forEach(function(el){
             if(isHindi){
@@ -98,8 +391,116 @@ if (langBtn) {
             }
         });
 
+        placeholders.forEach(function(el){
+            if(isHindi){
+                el.setAttribute("placeholder", el.getAttribute("data-en"));
+            } else {
+                el.setAttribute("placeholder", el.getAttribute("data-hi"));
+            }
+        });
+
+        if(isHindi){
+            langBtn.innerText = "हिंदी";
+        } else {
+            langBtn.innerText = "English";
+        }
+
         isHindi = !isHindi;
 
+    });
+}
+</script>
+
+<!-- CHAT WIDGET SCRIPT -->
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const chatToggle = document.getElementById('chat-toggle');
+const chatPopup = document.getElementById('chat-popup');
+const chatClose = document.getElementById('chat-close');
+const chatForm = document.getElementById('chat-widget-form');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-widget-input');
+const chatFile = document.getElementById('chat-widget-file');
+const chatFileName = document.getElementById('chat-file-name');
+const csrftoken = getCookie('csrftoken');
+
+if (chatToggle && chatPopup) {
+    chatToggle.addEventListener('click', function() {
+        chatPopup.classList.toggle('open');
+    });
+}
+
+if (chatClose) {
+    chatClose.addEventListener('click', function() {
+        chatPopup.classList.remove('open');
+    });
+}
+
+chatFile.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+        chatFileName.textContent = this.files[0].name;
+    } else {
+        chatFileName.textContent = 'No file selected';
+    }
+});
+
+function appendChatMessage(message, sender) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'chat-message ' + sender;
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = message;
+    wrapper.appendChild(bubble);
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+if (chatForm) {
+    chatForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const query = chatInput.value.trim();
+        if (!query && !chatFile.files.length) return;
+
+        appendChatMessage(query || 'Image upload', 'user');
+
+        const formData = new FormData();
+        formData.append('query', query);
+        if (chatFile.files.length) {
+            formData.append('image', chatFile.files[0]);
+        }
+
+        fetch('/chat/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            appendChatMessage(data.response, 'bot');
+        })
+        .catch(() => {
+            appendChatMessage('Sorry, I could not reach the assistant. Try again.', 'bot');
+        });
+
+        chatInput.value = '';
+        chatFile.value = '';
+        chatFileName.textContent = 'No file selected';
     });
 }
 </script>

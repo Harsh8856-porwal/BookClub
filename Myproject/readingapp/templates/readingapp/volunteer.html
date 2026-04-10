@@ -1,74 +1,86 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/220cb8914d.js" crossorigin="anonymous"></script>
-</head>
-<body style="background-color:#f3c3d0; ;">
-  {% csrf_token %}
-<section>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f3c3d0;">
-      <a class="navbar-brand" href="#"> <img src="readingapp/static/image/logobook.png" width="50" height="50" class="d-inline-block align-top" alt=""><font size="6px" face="Gabriola">
-        Bookclub</font></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </nav>
-  </section>
+{% include 'readingapp/header.html' %}
+
+<section class="py-5" style="background: rgba(255,255,255,0.08);">
   <div class="container">
+    <div class="text-center mb-5">
+      <h1>Volunteering at BookClub</h1>
+      <p class="lead text-muted">Join a global community that helps make books accessible, discoverable, and enjoyable.</p>
+    </div>
 
-<section style="background-color: white; margin-top: 20px;">
-<h1 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; "><font font-weight="bold" face="Gabriola">Volunteering at BookClub</font></h1>
-<hr>
-<h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; font-weight:bold ;"><font font-weight="bold" face="Gabriola">WELCOME!</font></h2>
-<table>
-    <tbody>
-           <tr>
-            <td>
-<section style="margin-left:40px; text-align: right;">
-    <img src="readingapp/static/image/volunteer1.jfif"  width="300" height="200">
+    <div class="row gy-4 mb-5">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+          <img src="{% static 'image/volunteer1.jfif' %}" class="card-img-top" alt="Volunteer support" />
+          <div class="card-body">
+            <h5 class="card-title">Community Support</h5>
+            <p class="card-text">Help readers find the right books by improving metadata, categorizing titles, and sharing recommendations.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+          <img src="{% static 'image/logobook.png' %}" class="card-img-top" alt="BookClub logo" />
+          <div class="card-body">
+            <h5 class="card-title">Share Your Passion</h5>
+            <p class="card-text">Contribute your time, knowledge, or technical skills to support BookClub and strengthen our library community.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+          <img src="{% static 'image/volunteer3.jfif' %}" class="card-img-top" alt="Volunteer team" />
+          <div class="card-body">
+            <h5 class="card-title">Global Impact</h5>
+            <p class="card-text">Work with volunteers from around the world to help build a public reading platform that benefits everyone.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-</section></td>
-<td><section style="margin-left:40px; text-align: center;">
-    <img src="readingapp/static/image/logobook.png"  width="300" height="200">
+    <div class="row gy-4">
+      <div class="col-lg-8">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h3>How volunteering works</h3>
+          <p>BookClub volunteers support the platform in many ways, such as improving book records, moderating community discussions, and helping users discover great reads.</p>
+          <p>Our volunteer community is open to everyone, whether you have a few minutes or a few hours each week.</p>
+          <ul>
+            <li>Review and edit book information.</li>
+            <li>Help new readers with recommendations.</li>
+            <li>Participate in events and community discussions.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h5>Get started</h5>
+          <p>Ready to volunteer? Reach out through our contact page or join the community to learn more about current opportunities.</p>
+          <a href="/register" class="btn btn-primary">Become a Volunteer</a>
+        </div>
+      </div>
+    </div>
 
+    <div class="row mt-5 gy-4">
+      <div class="col-md-4">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h5>Flexible roles</h5>
+          <p>Choose a role that suits your interests and availability.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h5>Collaborative community</h5>
+          <p>Work with readers and librarians to improve the experience for everyone.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4 rounded shadow-sm bg-white text-dark">
+          <h5>Meaningful impact</h5>
+          <p>Your contributions help shape the future of our open library.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-</td>
-<td>
-    <section style="margin-left:40px; text-align: left;">
-        <img src="readingapp/static/image/volunteer3.jfif"  width="300" height="200">
-    
-    </section></td></tr></tbody></table>
-<pre><font font-weight="bold" face="Gabriola" size="5px">
-        BookClub (BookClub.org) is a non-profit, open source, digital public library, hosted by the Internet Archive, 
-        which lends millions of ebooks to millions of patrons each year. BookClub  is made possible by volunteers, like you, from more than 
-        8 different countries (US, NL, NZ, ES, IN, UK, DE, GR, CA). We believe everyone deserves a say in how their library serves our community.
-        A library should be not only for, but of the people. Together, let's build the World's library.
 
-        If you're busy but still like to show your generosity and support our cause, consider sponsoring a book or making a tax-deductible donation.
-
-</font></pre>
-<h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; font-weight:bold ;"><font font-weight="bold" face="Gabriola">HOW IT WORKS?</font></h2>
-<pre><font font-weight="bold" face="Gabriola" size="5px">
-        Bookclub hosts an invite-only community chat room on Slack where book lovers and contributors can stay updated, ask questions,
-        and collaborate towards improve Bookclub.org. Each week, Open Library also hosts an inclusive Community Call where members of the community
-        may learn and participate in discussing the evolution of Bookclub.org.
-
-        To join our chat or participate in one of our weekly community calls, please "Choose Your Character"
-        and click the relevant link to become involved. We're so excited to welcome you!   
-</font></pre>
-<h2 style="word-spacing:6px; letter-spacing: 1px; margin-left:50px; font-weight:bold ;"><font font-weight="bold" face="Gabriola">Opportunities:</font></h2>
-<pre><font font-weight="bold" face="Gabriola" size="5px">
-        There are several ways to participate in BookClub.
-
-        1.Proceed to "Choose Your Character" to explore flexible volunteering opportunities
-        2.Submit interest in being chosen as an Bookclub Fellow
-        3.Apply for a Google Summer of Code internship
-        4.Participate in Hacktoberfest (every October)   
-</font></pre>
-  {% include 'readingapp/footer.html' %}
+{% include 'readingapp/footer.html' %}

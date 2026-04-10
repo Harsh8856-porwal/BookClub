@@ -21,21 +21,97 @@ body {
 /* ===== NAVBAR ===== */
 .navbar {
     background: rgba(15, 23, 42, 0.9) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link {
+    color: #d1d5db !important;
+    margin-right: 0.75rem;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+}
+
+.search-box {
+    border-radius: 999px;
+    min-width: 260px;
+}
+
+.navbar .btn-light {
+    border-radius: 999px;
+    min-width: 44px;
+    padding: 0.55rem 0.9rem;
 }
 
 /* ===== HERO ===== */
 .hero-container {
     position: relative;
-    height: 30vh;
+    overflow: hidden;
+    height: 35vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
-.hero {
+.hero-container::before {
+    content: "";
     position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(15,23,42,0.55));
+    z-index: 1;
+}
+
+.slider-track {
+    display: flex;
+    width: 300%;
+    animation: slideText 15s linear infinite;
+    position: relative;
     z-index: 2;
+}
+
+.slide {
+    width: 100%;
+    flex-shrink: 0;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+}
+
+.slide h1,
+.slide p {
+    color: #fff;
+}
+
+.slide h1 {
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    margin-bottom: 0.75rem;
+    font-weight: 800;
+}
+
+.slide p {
+    font-size: clamp(1rem, 1.25vw, 1.4rem);
+    color: #d1d5db;
+}
+
+@keyframes slideText {
+    0% { transform: translateX(0%); }
+    25% { transform: translateX(0%); }
+    33% { transform: translateX(-100%); }
+    58% { transform: translateX(-100%); }
+    66% { transform: translateX(-200%); }
+    91% { transform: translateX(-200%); }
+    100% { transform: translateX(0%); }
 }
 
 /* ===== ORBIT ===== */
@@ -60,126 +136,49 @@ body {
 
 <body>
 
-<nav class="navbar navbar-expand-lg">
-<a class="navbar-brand text-white" href="#">📚 BookClub</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center text-white" href="#">
+      <img src="{% static 'image/logobook.png' %}" width="40" class="mr-2">
+      <span class="lang-text" data-en="BookClub" data-hi="बुक क्लब">BookClub</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <form class="form-inline ml-auto mr-3" action="" method="get">
+        <input class="form-control search-box mr-2 lang-placeholder" type="text" name="search" placeholder="Search Book" data-en="Search Book" data-hi="किताब खोजें" value="{{ request.GET.search|default:'' }}">
+        <button class="btn btn-light" type="submit" title="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="navbar-nav align-items-center">
+        <a class="nav-link lang-text" data-en="Login" data-hi="लॉगिन" href="/login">Login</a>
+        <a class="nav-link lang-text" data-en="Register" data-hi="रजिस्टर" href="/register">Register</a>
+        <button id="theme-toggle" class="btn btn-light ml-2" style="background-color: #ffffff;">🌙</button>
+        <button id="lang-toggle" class="btn btn-light ml-2" style="background-color: #ffffff;">हिंदी</button>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <div class="hero-container">
-
     <div class="orbit-container" id="orbit"></div>
 
-    <div class="hero">
-        <h1>Discover Amazing Books 📖</h1>
-        <p style="color:#ccc;">Find your next favorite book</p>
+    <div class="slider-track">
+        <div class="slide">
+            <h1>Discover Amazing Books 📖</h1>
+            <p>Find your next favorite book</p>
+        </div>
+        <div class="slide">
+            <h1>Explore New Stories 🌟</h1>
+            <p>Every page brings a new adventure.</p>
+        </div>
+        <div class="slide">
+            <h1>Read, Learn, Grow 📚</h1>
+            <p>Join the community of readers today.</p>
+        </div>
     </div>
-
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-const authors = [
-"J.K. Rowling","Stephen King","Agatha Christie","George Orwell",
-"Chetan Bhagat","R.K. Narayan","Paulo Coelho","Dan Brown",
-"Jane Austen","Mark Twain","Ruskin Bond","Arundhati Roy",
-"Jhumpa Lahiri","Sudha Murthy","Khaled Hosseini",
-"Leo Tolstoy","Charles Dickens","Oscar Wilde",
-"Ernest Hemingway","William Shakespeare",
-"Premchand","Rabindranath Tagore","Sarojini Naidu",
-"Bankim Chandra","Vikram Seth","Anita Desai",
-"Salman Rushdie","Aravind Adiga","Amish Tripathi",
-"Devdutt Pattanaik","Ashwin Sanghi","Durjoy Datta",
-"Ravinder Singh","Savi Sharma","Preeti Shenoy",
-"Neil Gaiman","Rick Riordan","J.R.R. Tolkien",
-"George R.R. Martin","Suzanne Collins",
-"Danielle Steel","Sidney Sheldon","E.L. James",
-"Colleen Hoover","Harlan Coben","John Green",
-"Nicholas Sparks","James Patterson"
-];
-
-const colors = [
-"#00aef8","#00ff5e","#fa9e00","#ef0000",
-"#8400ff","#07ffe2","#ff0037","#fc6900"
-];
-
-const orbit = document.getElementById("orbit");
-
-/* 🔥 BOX WIDTH */
-const boxWidth = 1500;
-
-/* 🔥 NUMBER OF LINES (CHANGE 5 OR 6) */
-const totalLines = 6;
-
-/* FUNCTION: SPLIT AUTHORS INTO MULTIPLE LINES */
-function splitIntoLines(arr, lines) {
-    const perLine = Math.ceil(arr.length / lines);
-    const result = [];
-
-    for (let i = 0; i < lines; i++) {
-        result.push(arr.slice(i * perLine, (i + 1.5) * perLine));
-    }
-
-    return result;
-}
-
-const lines = splitIntoLines(authors, totalLines);
-
-/* FUNCTION TO CREATE EACH LINE */
-function createLine(line, yPos) {
-    const gap = boxWidth / line.length;
-
-    line.forEach((name, i) => {
-        const span = document.createElement("span");
-        span.className = "author";
-        span.innerText = name;
-
-        const baseX = (window.innerWidth/2 - boxWidth/2) + (i * gap);
-
-        span.dataset.baseX = baseX;
-        span.dataset.baseY = yPos;
-
-        span.dataset.speed = 0.001 + Math.random() * 0.002;
-        span.dataset.offset = Math.random() * 1000;
-        span.style.color = colors[i % colors.length];
-
-        orbit.appendChild(span);
-    });
-}
-
-/* 🔥 CREATE MULTIPLE LINES */
-const startY = 35;
-const gapY =40;
-
-lines.forEach((line, index) => {
-    createLine(line, startY + (index * gapY));
-});
-
-const elements = document.querySelectorAll(".author");
-
-/* FLOAT ANIMATION */
-function animate(time) {
-
-    elements.forEach(el => {
-
-        const baseX = parseFloat(el.dataset.baseX);
-        const baseY = parseFloat(el.dataset.baseY);
-        const speed = parseFloat(el.dataset.speed);
-        const offset = parseFloat(el.dataset.offset);
-
-        const floatY = Math.sin((time + offset) * speed) * 6;
-        const floatX = Math.cos((time + offset) * speed) * 10;
-
-        el.style.transform = 
-            `translate(${baseX + floatX}px, ${baseY + floatY}px)`;
-    });
-
-    requestAnimationFrame(animate);
-}
-
-requestAnimationFrame(animate);
-
-});
-</script>
-
-</body>
-</html>
