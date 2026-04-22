@@ -5,13 +5,61 @@ from django.contrib import messages
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
- 
+
 from django.contrib.auth import authenticate, login as auth_login, logout
 import re
 import json
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-# Create your views here.
+import PyPDF2
+from io import BytesIO
+def extract_text_from_pdf(pdf_file):
+    pdf_reader = PyPDF2.PdfReader(BytesIO(pdf_file.read()))
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+    return text[:10000]  # Limit to first 10000 chars for better processing
+
+
+def summarize_book_text(text):
+    """Create a simple summary from book text"""
+    if not text or len(text.strip()) < 100:
+        return "This book appears to be too short or the text could not be extracted properly."
+
+    # Clean and process text
+    text = text.replace('\n', ' ').replace('\r', ' ')
+    sentences = [s.strip() for s in text.split('.') if s.strip()]
+
+    # Basic summarization logic
+    word_count = len(text.split())
+    char_count = len(text)
+
+    # Try to extract first meaningful paragraph
+    paragraphs = text.split('\n\n')
+    first_paragraph = ""
+    for para in paragraphs:
+        if len(para.strip()) > 100:  # Meaningful paragraph
+            first_paragraph = para.strip()[:500] + "..."
+            break
+
+    # Create summary
+    summary = f"This book contains approximately {word_count:,} words ({char_count:,} characters). "
+
+    if first_paragraph:
+        summary += f"\n\nOpening excerpt: {first_paragraph}"
+
+    # Try to identify potential themes or topics (basic keyword extraction)
+    common_words = ['love', 'death', 'life', 'war', 'peace', 'family', 'friend', 'journey', 'adventure', 'mystery']
+    found_themes = []
+    text_lower = text.lower()
+    for theme in common_words:
+        if theme in text_lower:
+            found_themes.append(theme.title())
+
+    if found_themes:
+        summary += f"\n\nPotential themes: {', '.join(found_themes[:5])}"
+
+    return summary
 
   
 
@@ -70,25 +118,23 @@ def show(request):
 
 
 def register(request):
-    if request.method=="POST" and 'submit' in request.POST:
-        # nm= request.POST.get('unm')
-        # print(nm)
-        user = Book ( 
-        username=request.POST.get('unm'),
-        email=request.POST.get('ue'),
-        book_name=request.POST.get('bn'),
-        author_name=request.POST.get('an'),
-        book_category=request.POST.get('bcat'),
-        book_chapter=request.POST.get('cn'),
-        book_pages=request.POST.get('pn'),
-        book_agegroup=request.POST.get('ag'),
-        book_img = request.FILES.get('bfile'),
-        book_file = request.FILES.get('bpdf')),
-        
+    if request.method == "POST" and 'submit' in request.POST:
+        user = Book(
+            username=request.POST.get('unm'),
+            email=request.POST.get('ue'),
+            book_name=request.POST.get('bn'),
+            author_name=request.POST.get('an'),
+            book_category=request.POST.get('bcat'),
+            book_chapter=request.POST.get('cn'),
+            book_pages=request.POST.get('pn'),
+            book_agegroup=request.POST.get('ag'),
+            book_img=request.FILES.get('bfile'),
+            book_file=request.FILES.get('bpdf')
+        )
         user.save()
-        print(user)
-        
-    return render(request,"home.html")
+
+    return render(request, "home.html")
+
 @login_required(login_url="/login")
 
 def addbook(request):
@@ -148,13 +194,61 @@ def category_books(request, category):
     return render(request, 'readingapp/category_books.html', context)
 
 
+def book_details(request, book_id):
+    try:
+        book = Book.objects.get(id=book_id)
+
+        # Get similar books using the improved function
+        similar_books = get_similar_books(book, limit=4)
+
+        context = {
+            'book': book,
+            'similar_books': similar_books
+        }
+
+        return render(request, 'readingapp/book_details.html', context)
+
+    except Book.DoesNotExist:
+        return redirect('/')
+
+
 def deletebook(request, id):
     query = Book.objects.get(id=id)
     query.delete()
     return redirect('/addbook')
-    query= Book.objects.get(id=id)
-    query.delete()
-    return redirect('/addbook')
+
+
+def get_similar_books(current_book, limit=4):
+    """Get similar books based on category and age group"""
+    similar_books = []
+
+    # First, get books from the same category
+    category_books = Book.objects.filter(
+        book_category=current_book.book_category
+    ).exclude(id=current_book.id)[:limit//2]
+    similar_books.extend(list(category_books))
+
+    # Then, get books from the same age group
+    remaining_slots = limit - len(similar_books)
+    if remaining_slots > 0:
+        age_books = Book.objects.filter(
+            book_agegroup=current_book.book_agegroup
+        ).exclude(id=current_book.id).exclude(
+            id__in=[b.id for b in similar_books]
+        )[:remaining_slots]
+        similar_books.extend(list(age_books))
+
+    # If still not enough, include some other books
+    if len(similar_books) < limit:
+        remaining_slots = limit - len(similar_books)
+        other_books = Book.objects.exclude(
+            id=current_book.id
+        ).exclude(
+            id__in=[b.id for b in similar_books]
+        )[:remaining_slots]
+        similar_books.extend(list(other_books))
+
+    return similar_books[:limit]
 
 
 def get_word_meaning(word, lang='en'):
@@ -170,19 +264,85 @@ def get_word_meaning(word, lang='en'):
     return dictionary.get(word.lower(), {}).get(lang)
 
 
-def generate_chat_response(query, image_file=None):
+def find_book_in_query(query_text):
+    if not query_text:
+        return None
+
+    name_search = re.search(r'"([^"]+)"', query_text)
+    if name_search:
+        return Book.objects.filter(book_name__icontains=name_search.group(1).strip()).first()
+
+    title_patterns = [
+        r'summary of ([\w\s]+)',
+        r'tell me about ([\w\s]+)',
+        r'about ([\w\s]+)',
+        r'details of ([\w\s]+)',
+        r'what is ([\w\s]+)',
+    ]
+    for pattern in title_patterns:
+        match = re.search(pattern, query_text)
+        if match:
+            text = match.group(1).strip()
+            book = Book.objects.filter(book_name__icontains=text).first()
+            if book:
+                return book
+
+    return Book.objects.filter(book_name__icontains=query_text).first()
+
+
+def format_book_summary(book):
+    summary_lines = [
+        f"{book.book_name} by {book.author_name}",
+        f"Category: {book.book_category}",
+        f"Age group: {book.book_agegroup}",
+        f"Pages: {book.book_pages}",
+        f"Chapters: {book.book_chapter}",
+    ]
+    if book.book_file:
+        summary_lines.append("PDF is available to read in the library.")
+    if book.book_img:
+        summary_lines.append("Cover image is available for this book.")
+    return "\n".join(summary_lines)
+
+
+def generate_chat_response(query, image_file=None, book_file=None):
     query_text = query.strip().lower() if query else ''
+    referenced_book = find_book_in_query(query_text)
+
+    if book_file:
+        text = extract_text_from_pdf(book_file)
+        if not text.strip():
+            return "Could not extract text from the uploaded book. Please ensure it's a valid PDF with readable text."
+
+        summary = summarize_book_text(text)
+        recommendations = Book.objects.exclude(book_file__isnull=True)[:3]
+        response = f"📚 Book analysis complete!\n\n{summary}\n\n"
+        if recommendations:
+            response += "📖 Recommended books from the library:\n"
+            for book in recommendations:
+                response += f"• {book.book_name} by {book.author_name} ({book.book_category}) - {book.book_agegroup}\n"
+        return response
 
     if image_file:
-        info_parts = []
-        info_parts.append(f"I received your image: {image_file.name}.")
+        info_parts = [
+            f"I received your image: {image_file.name}.",
+        ]
         if hasattr(image_file, 'size'):
             info_parts.append(f"Image size: {image_file.size} bytes.")
         if 'cover' in query_text or 'book' in query_text or 'describe' in query_text:
-            info_parts.append("I can help describe it by name or explain what you want from the image.")
+            info_parts.append("It looks like a book cover image, and I can help describe the book details or genre.")
         else:
-            info_parts.append("Ask me questions like 'Describe this image' or 'What is this cover about?'")
+            info_parts.append("Ask questions like 'Describe this book cover' or 'What genre is this?'")
         return ' '.join(info_parts)
+
+    if referenced_book and any(term in query_text for term in ['summary', 'about', 'describe', 'details', 'what is']):
+        response = f"📘 {format_book_summary(referenced_book)}\n\n"
+        similar = get_similar_books(referenced_book, limit=3)
+        if similar:
+            response += "📚 Similar books you may like:\n"
+            for book in similar:
+                response += f"• {book.book_name} by {book.author_name} ({book.book_category}) - {book.book_agegroup}\n"
+        return response
 
     if 'summary' in query_text:
         title_match = re.search(r'summary of ([\w\s]+)', query_text)
@@ -190,15 +350,21 @@ def generate_chat_response(query, image_file=None):
             title = title_match.group(1).strip()
             book = Book.objects.filter(book_name__icontains=title).first()
             if book:
-                return (
-                    f"Summary of '{book.book_name}' by {book.author_name}: "
+                similar = get_similar_books(book, limit=3)
+                response = (
+                    f"Summary of '{book.book_name}' by {book.author_name}:\n"
                     f"This {book.book_category} book has {book.book_pages} pages and {book.book_chapter} chapters. "
-                    f"It is ideal for {book.book_agegroup or 'all readers'} and explores themes common to {book.book_category} literature."
+                    f"It is ideal for {book.book_agegroup or 'all readers'} and explores themes common to {book.book_category} literature.\n"
                 )
+                if similar:
+                    response += "\nRecommended similar books:\n"
+                    for item in similar:
+                        response += f"• {item.book_name} by {item.author_name} ({item.book_category}) - {item.book_agegroup}\n"
+                return response
             return "I couldn't find that book in the library. Please provide a more specific title or try another book."
         return "Please tell me which book you want a summary for, for example: 'Summary of Pride and Prejudice'."
 
-    if 'recommend' in query_text or 'suggest' in query_text:
+    if 'recommend' in query_text or 'suggest' in query_text or 'similar' in query_text:
         category = None
         if 'mystery' in query_text:
             category = 'Mystery'
@@ -213,16 +379,18 @@ def generate_chat_response(query, image_file=None):
         elif 'classic' in query_text:
             category = 'Classic'
 
-        queryset = Book.objects.all()
-        if category:
-            queryset = queryset.filter(book_category__iexact=category)
+        if referenced_book and 'similar' in query_text:
+            suggestions = get_similar_books(referenced_book, limit=3)
+        elif category:
+            suggestions = Book.objects.filter(book_category__iexact=category)[:3]
+        else:
+            suggestions = Book.objects.all()[:3]
 
-        if queryset.exists():
-            suggestions = queryset[:3]
+        if suggestions:
             response_lines = ["Here are some books you may like:"]
             for book in suggestions:
-                response_lines.append(f"{book.book_name} by {book.author_name} ({book.book_category})")
-            return ' '.join(response_lines)
+                response_lines.append(f"• {book.book_name} by {book.author_name} ({book.book_category}) - {book.book_agegroup}")
+            return '\n'.join(response_lines)
         return "I couldn't find a matching book recommendation right now. Try a different category or describe what you're looking for."
 
     if 'meaning' in query_text or 'translate' in query_text:
@@ -241,9 +409,13 @@ def generate_chat_response(query, image_file=None):
         return "Please ask like 'Meaning of ephemeral in Hindi' or 'Translate ubiquitous'."
 
     return (
-        "I can help with book summaries, recommendations, word meanings, or image details. "
-        "Try asking: 'Recommend a mystery book', 'Summary of The Alchemist', "
-        "or 'Meaning of intricate in Hindi'."
+        "Hello! I'm your BookClub Assistant. I can help with:\n"
+        "• Book summaries from our library\n"
+        "• Book recommendations by category\n"
+        "• Word meanings and translations\n"
+        "• Image descriptions\n"
+        "• PDF book analysis\n\n"
+        "Try asking: 'Recommend mystery books', 'Summary of [book name]', or 'Meaning of intricate in Hindi'."
     )
 
 
@@ -251,7 +423,8 @@ def chat(request):
     if request.method == 'POST':
         query = request.POST.get('query', '').strip()
         image_file = request.FILES.get('image')
-        response_text = generate_chat_response(query, image_file)
+        book_file = request.FILES.get('book_file')
+        response_text = generate_chat_response(query, image_file, book_file)
         return JsonResponse({'response': response_text})
     return redirect('/')
 
@@ -281,7 +454,6 @@ def login(request):
 
     return render(request, 'readingapp/register.html')
 
-# from django.contrib.auth import authenticate, login ,logout
 def login1(request):
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()

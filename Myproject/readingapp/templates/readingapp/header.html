@@ -147,7 +147,7 @@ body {
     </button>
 
     <div class="collapse navbar-collapse" id="mainNavbar">
-      <form class="form-inline ml-auto mr-3" action="" method="get">
+      <form class="form-inline ml-auto mr-3" action="{% url 'homepage' %}" method="get">
         <input class="form-control search-box mr-2 lang-placeholder" type="text" name="search" placeholder="Search Book" data-en="Search Book" data-hi="किताब खोजें" value="{{ request.GET.search|default:'' }}">
         <button class="btn btn-light" type="submit" title="Search">
           <i class="fa-solid fa-magnifying-glass"></i>

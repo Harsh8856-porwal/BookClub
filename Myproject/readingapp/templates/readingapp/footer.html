@@ -183,29 +183,31 @@ body.dark-mode .slider {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 66px;
+    height: 66px;
     border-radius: 50%;
-    background: #2563eb;
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
     color: white;
     border: none;
     cursor: pointer;
-    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.25);
-    transition: transform 0.2s ease;
+    box-shadow: 0 20px 36px rgba(15, 23, 42, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .chat-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 22px 40px rgba(15, 23, 42, 0.45);
 }
 
 .chat-popup {
-    width: 340px;
-    max-height: 520px;
+    width: 520px;
+    height: 760px;
+    max-height: calc(100vh - 40px);
     background: rgba(15, 23, 42, 0.98);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.35);
+    box-shadow: 0 28px 72px rgba(15, 23, 42, 0.35);
     display: none;
     flex-direction: column;
 }
@@ -238,63 +240,91 @@ body.dark-mode .slider {
 }
 
 .chat-messages {
-    padding: 16px;
+    padding: 18px;
     flex: 1;
     overflow-y: auto;
+    background: rgba(15, 23, 42, 0.95);
 }
 
 .chat-message {
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     display: flex;
 }
 
+.chat-message.user {
+    justify-content: flex-end;
+}
+
 .chat-message.user .chat-bubble {
-    margin-left: auto;
-    background: #2563eb;
+    margin-left: 40px;
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
     color: white;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 18px;
-    border-top-right-radius: 18px;
-    border-top-left-radius: 18px;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.chat-message.bot {
+    justify-content: flex-start;
 }
 
 .chat-message.bot .chat-bubble {
-    margin-right: auto;
+    margin-right: 40px;
     background: rgba(255,255,255,0.08);
     color: #e2e8f0;
-    border-bottom-right-radius: 18px;
-    border-bottom-left-radius: 4px;
-    border-top-right-radius: 18px;
-    border-top-left-radius: 18px;
+    border-radius: 18px 18px 18px 4px;
 }
 
 .chat-bubble {
-    padding: 12px 14px;
-    max-width: 80%;
-    line-height: 1.5;
-    font-size: 0.94rem;
+    padding: 16px 18px;
+    max-width: 85%;
+    line-height: 1.6;
+    font-size: 0.96rem;
+    white-space: pre-wrap;
+}
+
+.typing-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin: 0 2px;
+    background: #cbd5f5;
+    border-radius: 50%;
+    animation: blink 1s infinite ease-in-out;
+}
+
+@keyframes blink {
+    0%, 80%, 100% {
+        opacity: 0.3;
+        transform: scale(0.9);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
 }
 
 .chat-form {
-    padding: 12px 14px 16px;
+    padding: 16px 18px 20px;
     border-top: 1px solid rgba(255,255,255,0.08);
+    background: rgba(15, 23, 42, 0.98);
     display: grid;
     gap: 10px;
 }
 
 .chat-form input[type='text'] {
     width: 100%;
-    padding: 12px 14px;
+    padding: 14px 16px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.08);
     color: #fff;
+    font-size: 0.95rem;
+    min-height: 48px;
 }
 
 .chat-form button,
 .chat-form label {
     width: 100%;
-    padding: 11px 14px;
+    padding: 12px 16px;
     border-radius: 999px;
     border: none;
     cursor: pointer;
@@ -346,9 +376,12 @@ body.dark-mode .slider {
         </div>
         <form id="chat-widget-form" class="chat-form" enctype="multipart/form-data">
             <input id="chat-widget-input" name="query" type="text" placeholder="Type your question..." autocomplete="off" required>
-            <label for="chat-widget-file">Upload image</label>
-            <input id="chat-widget-file" name="image" type="file" accept="image/*">
-            <span class="chat-file-label" id="chat-file-name">No file selected</span>
+            <label for="chat-widget-image">Upload image</label>
+            <input id="chat-widget-image" name="image" type="file" accept="image/*">
+            <span class="chat-file-label" id="chat-image-name">No image selected</span>
+            <label for="chat-widget-book">Upload book (PDF)</label>
+            <input id="chat-widget-book" name="book_file" type="file" accept=".pdf">
+            <span class="chat-file-label" id="chat-book-name">No book selected</span>
             <button type="submit">Send</button>
         </form>
     </div>
@@ -434,13 +467,35 @@ const chatClose = document.getElementById('chat-close');
 const chatForm = document.getElementById('chat-widget-form');
 const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-widget-input');
-const chatFile = document.getElementById('chat-widget-file');
-const chatFileName = document.getElementById('chat-file-name');
+const chatFile = document.getElementById('chat-widget-image');
+const chatFileName = document.getElementById('chat-image-name');
+const chatBookFile = document.getElementById('chat-widget-book');
+const chatBookName = document.getElementById('chat-book-name');
 const csrftoken = getCookie('csrftoken');
+
+function createTypingIndicator() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'chat-message bot';
+    wrapper.id = 'typing-indicator';
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.innerHTML = '<span>Typing</span><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+    wrapper.appendChild(bubble);
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+}
 
 if (chatToggle && chatPopup) {
     chatToggle.addEventListener('click', function() {
         chatPopup.classList.toggle('open');
+        if (chatPopup.classList.contains('open')) {
+            chatInput.focus();
+        }
     });
 }
 
@@ -454,11 +509,20 @@ chatFile.addEventListener('change', function() {
     if (this.files && this.files.length > 0) {
         chatFileName.textContent = this.files[0].name;
     } else {
-        chatFileName.textContent = 'No file selected';
+        chatFileName.textContent = 'No image selected';
+    }
+});
+
+chatBookFile.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+        chatBookName.textContent = this.files[0].name;
+    } else {
+        chatBookName.textContent = 'No book selected';
     }
 });
 
 function appendChatMessage(message, sender) {
+    removeTypingIndicator();
     const wrapper = document.createElement('div');
     wrapper.className = 'chat-message ' + sender;
     const bubble = document.createElement('div');
@@ -473,14 +537,19 @@ if (chatForm) {
     chatForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const query = chatInput.value.trim();
-        if (!query && !chatFile.files.length) return;
+        if (!query && !chatFile.files.length && !chatBookFile.files.length) return;
 
-        appendChatMessage(query || 'Image upload', 'user');
+        appendChatMessage(query || 'File upload', 'user');
+        createTypingIndicator();
+        chatInput.disabled = true;
 
         const formData = new FormData();
         formData.append('query', query);
         if (chatFile.files.length) {
             formData.append('image', chatFile.files[0]);
+        }
+        if (chatBookFile.files.length) {
+            formData.append('book_file', chatBookFile.files[0]);
         }
 
         fetch('/chat/', {
@@ -492,15 +561,22 @@ if (chatForm) {
         })
         .then(response => response.json())
         .then(data => {
+            removeTypingIndicator();
             appendChatMessage(data.response, 'bot');
         })
         .catch(() => {
+            removeTypingIndicator();
             appendChatMessage('Sorry, I could not reach the assistant. Try again.', 'bot');
+        })
+        .finally(() => {
+            chatInput.disabled = false;
+            chatInput.value = '';
+            chatFile.value = '';
+            chatBookFile.value = '';
+            chatFileName.textContent = 'No image selected';
+            chatBookName.textContent = 'No book selected';
+            chatInput.focus();
         });
-
-        chatInput.value = '';
-        chatFile.value = '';
-        chatFileName.textContent = 'No file selected';
     });
 }
 </script>

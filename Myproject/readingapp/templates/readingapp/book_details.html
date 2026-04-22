@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.book_name }} - Book Details</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/220cb8914d.js"></script>
+
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .book-header {
+            background: linear-gradient(135deg, #6366f1, #38bdf8);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .book-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .book-author {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .book-image {
+            max-width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .book-info {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #6366f1, #38bdf8);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .similar-books {
+            margin-top: 50px;
+        }
+
+        .similar-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #38bdf8;
+        }
+
+        .similar-card {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .similar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .similar-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .similar-card .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .similar-card .card-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .chat-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .chat-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #38bdf8;
+        }
+
+        @media (max-width: 768px) {
+            .book-title {
+                font-size: 2rem;
+            }
+
+            .book-card {
+                padding: 20px;
+            }
+
+            .book-image {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+{% load static %}
+
+<!-- BOOK HEADER -->
+<div class="book-header">
+    <div class="container">
+        <h1 class="book-title">{{ book.book_name }}</h1>
+        <p class="book-author">by {{ book.author_name }}</p>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="container">
+        <div class="row">
+            <!-- BOOK DETAILS -->
+            <div class="col-lg-8">
+                <div class="book-card">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            {% if book.book_img %}
+                                <img src="{{ book.book_img.url }}" alt="{{ book.book_name }}" class="book-image">
+                            {% else %}
+                                <img src="{% static 'image/default.jpg' %}" alt="Default Book Cover" class="book-image">
+                            {% endif %}
+
+                            <div class="mt-3">
+                                {% if book.book_file %}
+                                    <a href="{{ book.book_file.url }}" class="btn-custom" target="_blank">
+                                        📖 Read Book
+                                    </a>
+                                {% else %}
+                                    <p style="color: #ff6b6b;">📄 PDF not available</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <h3>About This Book</h3>
+                            <p class="mb-4">
+                                This {{ book.book_category }} book contains {{ book.book_pages }} pages
+                                divided into {{ book.book_chapter }} chapters. It's perfect for
+                                {{ book.book_agegroup }} readers and explores themes common to
+                                {{ book.book_category }} literature.
+                            </p>
+
+                            <div class="book-info">
+                                <div class="info-item">
+                                    <strong>📚 Category:</strong>
+                                    <span>{{ book.book_category }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>📄 Pages:</strong>
+                                    <span>{{ book.book_pages }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>📑 Chapters:</strong>
+                                    <span>{{ book.book_chapter }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>👥 Age Group:</strong>
+                                    <span>{{ book.book_agegroup }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>👤 Added by:</strong>
+                                    <span>{{ book.username }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>📧 Contact:</strong>
+                                    <span>{{ book.email }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHAT SECTION -->
+                <div class="chat-section">
+                    <h3 class="chat-title">💬 Ask About This Book</h3>
+                    <p class="text-center mb-3">
+                        Use our AI assistant to get summaries, recommendations, or ask questions about "{{ book.book_name }}"
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openChat()" class="btn-custom">
+                            🤖 Chat with Assistant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMILAR BOOKS SIDEBAR -->
+            <div class="col-lg-4">
+                <div class="similar-books">
+                    <h3 class="similar-title">📚 Similar Books</h3>
+
+                    {% if similar_books %}
+                        <div class="row">
+                            {% for similar_book in similar_books %}
+                            <div class="col-12 mb-3">
+                                <div class="similar-card card">
+                                    {% if similar_book.book_img %}
+                                        <img src="{{ similar_book.book_img.url }}" class="card-img-top" alt="{{ similar_book.book_name }}">
+                                    {% else %}
+                                        <img src="{% static 'image/default.jpg' %}" class="card-img-top" alt="Default Cover">
+                                    {% endif %}
+
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ similar_book.book_name }}</h6>
+                                        <p class="text-muted small mb-2">by {{ similar_book.author_name }}</p>
+                                        <a href="{% url 'book_details' similar_book.id %}" class="btn-custom btn-sm">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <p class="text-muted">No similar books found</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'readingapp/footer.html' %}
+
+<script>
+function openChat() {
+    // Scroll to chat widget or open it
+    const chatToggle = document.getElementById('chat-toggle');
+    if (chatToggle) {
+        chatToggle.click();
+        // Auto-fill with book-related query
+        setTimeout(() => {
+            const chatInput = document.getElementById('chat-widget-input');
+            if (chatInput) {
+                chatInput.value = `Tell me about "${"{{ book.book_name }}"}"`;
+                chatInput.focus();
+            }
+        }, 500);
+    }
+}
+</script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init();
+</script>
+
+</body>
+</html>

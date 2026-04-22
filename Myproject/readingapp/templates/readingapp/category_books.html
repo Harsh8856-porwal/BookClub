@@ -120,11 +120,12 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ book.book_name }}</h5>
 
-                    {% if book.book_file %}
-                        <a href="{{ book.book_file.url }}" class="btn btn-read">Read</a>
-                    {% else %}
-                        <p style="color:red;">No file</p>
-                    {% endif %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'book_details' book.id %}" class="btn btn-read">📖 Details</a>
+                        {% if book.book_file %}
+                            <a href="{{ book.book_file.url }}" class="btn btn-read" target="_blank">📄 Read</a>
+                        {% endif %}
+                    </div>
                 </div>
 
             </div>

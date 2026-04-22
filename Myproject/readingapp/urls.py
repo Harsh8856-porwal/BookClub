@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.homepage),
+    path('', views.homepage, name='homepage'),
     path('bookdata', views.show),
     path('firstpage', views.homepage),
     path('card', views.register),
@@ -21,11 +21,8 @@ urlpatterns = [
     path('chat/', views.chat, name='chat'),
     path('delete_book/<id>/', views.deletebook),
     path('category/<str:category>/', views.category_books, name='category_books'),
+    path('book/<int:book_id>/', views.book_details, name='book_details'),
 ]
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 if settings.DEBUG:

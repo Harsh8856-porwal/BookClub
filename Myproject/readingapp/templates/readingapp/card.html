@@ -75,7 +75,12 @@
         <img src="/media/{{ books.book_img }}">
         <div class="card-body text-center">
           <h6>{{books.book_name}}</h6>
-          <a href="/media/{{ books.book_file }}" class="btn btn-primary btn-sm">Read</a>
+          <div class="btn-group">
+            <a href="{% url 'book_details' books.id %}" class="btn btn-primary btn-sm">Details</a>
+            {% if books.book_file %}
+              <a href="/media/{{ books.book_file }}" class="btn btn-secondary btn-sm" target="_blank">Read</a>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>

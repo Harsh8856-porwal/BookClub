@@ -99,7 +99,10 @@
 <img src= "/media/{{ books.book_img }}" class="card-img-top" style="width:190px; height:220px;">
 <div class="card-body">
 <h5 class="card-title">{{books.book_name}}</h5>
-<a href="/delete_book/{{books.id}}" class="btn btn-lg-danger" style="margin-bottom: 1%;  border-color:rgb(239, 73, 136); background-color:white;">Delete</a>
+<div class="d-flex flex-column gap-2">
+    <a href="{% url 'book_details' books.id %}" class="btn btn-primary btn-sm">View Details</a>
+    <a href="/delete_book/{{books.id}}" class="btn btn-danger btn-sm">Delete</a>
+</div>
 </div>
 </div>
 </div>
