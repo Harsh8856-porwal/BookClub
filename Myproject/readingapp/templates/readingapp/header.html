@@ -44,10 +44,58 @@ body {
     min-width: 260px;
 }
 
-.navbar .btn-light {
+.navbar .btn-light,
+.navbar .toggle-button {
     border-radius: 999px;
     min-width: 44px;
     padding: 0.55rem 0.9rem;
+}
+
+.toggle-button {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.light-mode {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.light-mode .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.light-mode .navbar-brand,
+.light-mode .nav-link,
+.light-mode .lang-placeholder,
+.light-mode .toggle-button,
+.light-mode .search-box {
+    color: #0f172a !important;
+}
+
+.light-mode .toggle-button {
+    background-color: rgba(15, 23, 42, 0.12) !important;
+    border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+..light-mode .toggle-button:hover {
+    background-color: rgba(15, 23, 42, 0.16) !important;
+}
+
+.light-mode .hero-container::before {
+    background: linear-gradient(135deg, rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.7));
+}
+
+.light-mode .slide h1,
+.light-mode .slide p {
+    color: #0f172a !important;
 }
 
 /* ===== HERO ===== */
@@ -157,8 +205,8 @@ body {
       <div class="navbar-nav align-items-center">
         <a class="nav-link lang-text" data-en="Login" data-hi="लॉगिन" href="/login">Login</a>
         <a class="nav-link lang-text" data-en="Register" data-hi="रजिस्टर" href="/register">Register</a>
-        <button id="theme-toggle" class="btn btn-light ml-2" style="background-color: #ffffff;">🌙</button>
-        <button id="lang-toggle" class="btn btn-light ml-2" style="background-color: #ffffff;">हिंदी</button>
+        <button id="theme-toggle" class="btn toggle-button ml-2">🌙</button>
+        <button id="lang-toggle" class="btn toggle-button ml-2">हिंदी</button>
       </div>
     </div>
   </div>
