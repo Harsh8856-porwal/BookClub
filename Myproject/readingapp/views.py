@@ -18,7 +18,7 @@ def extract_text_from_pdf(pdf_file):
     text = ""
     for page in pdf_reader.pages:
         text += page.extract_text()
-    return text[:10000]  # Limit to first 10000 chars for better processing
+    return text[:1000]  # Limit to first 10000 chars for better processing
 
 
 def summarize_book_text(text):
@@ -291,18 +291,14 @@ def find_book_in_query(query_text):
 
 
 def format_book_summary(book):
-    summary_lines = [
-        f"{book.book_name} by {book.author_name}",
-        f"Category: {book.book_category}",
-        f"Age group: {book.book_agegroup}",
-        f"Pages: {book.book_pages}",
-        f"Chapters: {book.book_chapter}",
-    ]
+    summary = f"{book.book_name} is a {book.book_category} book written by {book.author_name}. "
+    summary += f"It contains {book.book_pages} pages divided into {book.book_chapter} chapters "
+    summary += f"and is suitable for {book.book_agegroup or 'all readers'}. "
     if book.book_file:
-        summary_lines.append("PDF is available to read in the library.")
+        summary += "A PDF version is available for reading in the library. "
     if book.book_img:
-        summary_lines.append("Cover image is available for this book.")
-    return "\n".join(summary_lines)
+        summary += "The book cover image is also available."
+    return summary
 
 
 def generate_chat_response(query, image_file=None, book_file=None):
