@@ -23,9 +23,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SECRET_KEY = 'django-insecure-6^9v5c3rze_&5w=b9ewdb61$a4w8c_nrbfl1!a%jhm!@j(t^$_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [  "bookreadingplatform.onrender.com",
+    "127.0.0.1",
+    "localhost"]
 
 
 # Application definition
@@ -38,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'readingapp',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://bookreadingplatform.onrender.com",
 ]
 
 MIDDLEWARE = [
@@ -129,3 +135,10 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Default primary key field type
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
