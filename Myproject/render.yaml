@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: bookclub
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn Myproject.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: False
